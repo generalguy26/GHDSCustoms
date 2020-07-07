@@ -120,9 +120,10 @@ if __name__ == '__main__':
                 print('done')
                 break
             elif resp == 'N':
-                replacing = choosesong(replacing.chartlength + 1, replacing.audiolength + 1)
+                replacing = choosesong(len(chart), replacing.audiolength + 1)
                 print('Next Song...')
             else:
                 print('No choice selected, aborting...')
+				break
 
     newrom.close()
