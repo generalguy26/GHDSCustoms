@@ -46,12 +46,15 @@ whereawr = song('Where Are We Runnin', 0x07151F74, 2608, 0x044C7600, 1737216)
 songlist = [adreneline, allmylife, awintb, c2a, chelsea, dash, dimension, dpanic, egdangerous, falldown, htruism, iwbym, lassoo, lightsandsounds,
             missmurder, paralyzer, reptilia, ruby, shockwave, stillwaiting, sweetsacrifice, tfallen, tmetal, taasiaam, unconditional, violet, whatdihtd, whereawr]
 
+blacklist = []
+
 def choosesong(chartsize, audiosize):
     current = ''
+    print(songl.name for songl in blacklist)
     for chart in songlist:
         if chartsize <= chart.chartlength and audiosize <= chart.audiolength:
             if isinstance(current, song):
-                if chart.chartlength > current.chartlength or chart.audiolength > current.audiolength:
+                if chart.chartlength > current.chartlength or chart.audiolength > current.audiolength or chart in blacklist:
                     continue
             current = chart
     if isinstance(current, song):
@@ -120,10 +123,10 @@ if __name__ == '__main__':
                 print('done')
                 break
             elif resp == 'N':
-                replacing = choosesong(len(chart), replacing.audiolength + 1)
+                blacklist += [replacing]
+                replacing = choosesong(len(chart), len(audio))
                 print('Next Song...')
             else:
                 print('No choice selected, aborting...')
-                break
 
     newrom.close()

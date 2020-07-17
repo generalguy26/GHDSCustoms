@@ -28,9 +28,9 @@ def getFretDict(chart):
     for note in xg:
         try:
             if fretarray.get(note.time, -1) == -1:
-                fretarray[note.time] = [note.fret]
+                fretarray[note.time] = [[note.fret], note.length]
             else:
-                fretarray[note.time] += [note.fret]
+                fretarray[note.time][0] += [note.fret]
         except Exception:
             pass
     return fretarray
@@ -89,7 +89,7 @@ def calcsonglength(chart):
 def makeNoteList(fretdict):
     noteList = []
     for tup in fretdict.items():
-        noteList += [tup]
+        noteList += [tup] #ideally this shouldn't include the sustain value but ig it does now
     return noteList
 
 #determine if notes should be hopo or not bc on tour assumes every note is strummed and you have to force everything
@@ -103,7 +103,7 @@ def naturalHOPOSeq(fretTup):
             prevNote = tup
             HOPOSeq += [0]
             continue
-        if (tup[0] - prevNote[0]) <= 64 and len(tup[1]) == 1 and tup[1][0] != prevNote[1][0]:
+        if (tup[0] - prevNote[0]) <= 64 and len(tup[1][0]) == 1 and tup[1][0] != prevNote[1][0]:
             HOPOSeq += [1]
         else:
             HOPOSeq += [0]
@@ -135,6 +135,10 @@ def getColorHex(color):
 
 def getOffsetHex(offset):
     return bytearray(offset.to_bytes(4, 'little'))
+
+def forceHOPOs(hopoS, hopoF): # not implemented yet
+    return [not hopoS[index] if hopoF[index] else hopoS[index] for index, val in enumerate(hopoS)] #this is stupid
+
     
 
 #%% import chart
@@ -162,21 +166,28 @@ blueHex = 0x0800
 #print(getMSAtTick(81048, bpmarray))
 #print(noteL[500])
 #print(hopoS[500])
-
+# print(fretarray)
+# print(noteL)
+# print(hopoS)
 
 # turn the tick offsets to ms
 newOffsetList = []
 for note in noteL:
     newOffsetList += [int(getMSAtTick(note[0], bpmarray))] #this cast may be causing notes close to each other to become chords
 #print(newOffsetList)
-
 #%% make the uncompressed qgm, file ext is arbitrary bc what matters is the hex data
 
 with open('chart.qgm', 'wb') as out:
     for counter, offset in enumerate(newOffsetList):
         out.write(getOffsetHex(offset))
-        out.write(bytearray(b'\x00\x00'))
-        colornum = getNewColor(noteL[counter][1])
+        
+        #implementation of sustains
+        offsetBPM = getBPMAtTick(noteL[counter][0], bpmarray)
+        suslengthTick = noteL[counter][1][1]
+        suslengthMS = int(tickstoms(suslengthTick, offsetBPM))
+        out.write(bytearray(suslengthMS.to_bytes(2, 'little')))
+        
+        colornum = getNewColor(noteL[counter][1][0])
         if hopoS[counter]:
             colornum += hopo
         out.write(getColorHex(colornum))
