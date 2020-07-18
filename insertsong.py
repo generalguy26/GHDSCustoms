@@ -52,7 +52,7 @@ def choosesong(chartsize, audiosize):
     current = ''
     print(songl.name for songl in blacklist)
     for chart in songlist:
-        if chartsize <= chart.chartlength and audiosize <= chart.audiolength:
+        if chartsize <= chart.chartlength and audiosize <= chart.audiolength and not chart in blacklist:
             if isinstance(current, song):
                 if chart.chartlength > current.chartlength or chart.audiolength > current.audiolength or chart in blacklist:
                     continue
