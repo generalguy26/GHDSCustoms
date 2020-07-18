@@ -39,7 +39,7 @@ tfallen = song('The Fallen', 0x0711D564, 3888, 0x0388C600, 2329088)
 tmetal = song('The Metal', 0x071250D0, 4204, 0x03AC5000, 1629184)
 taasiaam = song('This Aint A Scene', 0x0712BE18, 3820, 0x03C52C00, 2128384)
 unconditional = song('Unconditional', 0x071351D4, 3592, 0x03F39A00, 2008064)
-violet = song('Violet Hill', 0x071318BC, 2192, 0x04123E00, 1934848)
+violet = song('Violet Hill', 0x071418BC, 2192, 0x04123E00, 1934848)
 whatdihtd = song('What Do I Have To Do', 0x07145EDC, 3200, 0x042FC400, 1880576)
 whereawr = song('Where Are We Runnin', 0x07151F74, 2608, 0x044C7600, 1737216)
 
