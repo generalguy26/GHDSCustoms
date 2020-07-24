@@ -5,6 +5,7 @@ Created on Mon Jul  6 15:38:44 2020
 @author: generalguy26
 """
 
+# this script inserts the song into the nds hex
 
 class song:
     def __init__(self, name, chartoffset, chartlength, audiooffset, audiolength):
@@ -14,6 +15,7 @@ class song:
         self.audiooffset = audiooffset
         self.audiolength = audiolength
 
+# table of data about the default songs in modern hits
 adreneline = song('Adrenaline', 0x07028044, 3884, 0x00E11600, 2019328)
 allmylife = song('All My Life', 0x07030FE0, 5104, 0x00FFE600, 2643456)
 awintb = song('Always Where I Need To Be', 0x0703848C, 2656, 0x01283C00, 1622528)
