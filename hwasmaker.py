@@ -34,9 +34,10 @@ with open('song.ima', 'rb') as song:                         #open ima adpcm enc
 
     #this part deprecates hwas fixer
     e = bytearray(song.read())                               # load data into bytearray
-    b = bytearray(b'\xF0\x77\x77\xFF')                       # set static header
-    for x in range(0x00, len(e), 0x8000):                    # insert every 0x8000 bytes (for some reason I don't see these bytes in the hex data but it still sounds okish???)
-        e[x-1:x-1] = b                                       # insert these 4 bytes
+    #static header is deprecated
+    #b = bytearray(b'\xF0\x77\x77\xFF')                       # set static header (deprecated)
+    #for x in range(0x00, len(e), 0x8000):                    # insert every 0x8000 bytes (for some reason I don't see these bytes in the hex data but it still sounds okish???)
+    #    e[x-1:x-1] = b                                       # insert these 4 bytes
     data = e
 
 lastsample = len(data)                                       # mark location of last sample
